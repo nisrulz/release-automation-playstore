@@ -33,7 +33,7 @@ platform :android do
       deploymentTrack = "production"
       version_code = get_version_from_google_playstore(deploymentTrack)
   
-      # Validate meta data update
+      # Validate meta data update, change as per your requirement
       validate_metadata_update = false
   
       upload_to_play_store(
@@ -44,6 +44,7 @@ platform :android do
         version_code: version_code,
         release_status: "draft",
         timeout: 3600,
+        metadata_path: "fastlane/metadata/",
         validate_only: validate_metadata_update,
       )
       puts "Android update_metadata lane completed ✅"

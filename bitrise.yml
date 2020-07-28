@@ -1,0 +1,19 @@
+format_version: 1.42.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  test:
+    steps:
+    - script:
+        inputs:
+        - content: printf "\n\n\t\t\t\tHello World! 🌍\n\n"
+  update-metadata:
+    steps:
+    - script:
+        inputs:
+        - content: ./ci_scripts/update_metadata.sh
+  fetch-metadata:
+    steps:
+    - script:
+        inputs:
+        - content: ./ci_scripts/fetch_metadata.sh

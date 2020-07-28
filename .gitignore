@@ -1,2 +1,5 @@
 vendor/
 report.xml
+.bitrise*
+api-android-service-acc-key.json
+fastlane/metadata
