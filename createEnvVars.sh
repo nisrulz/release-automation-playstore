@@ -41,7 +41,7 @@ read answer
 
 processAPIKeyJSON $1
 
-if [ "$answer" != "${answer#[Yy]}" ] ;thencl
+if [ "$answer" != "${answer#[Yy]}" ] ;then
     # Local ENV
     BITRISE_SECRETS_FILE=".bitrise.secrets.yml"
     echo "envs:" > $BITRISE_SECRETS_FILE
