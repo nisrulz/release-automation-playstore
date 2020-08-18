@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting up: Update Metadata for Playstore..."
+echo "Starting up: Fetching Metadata from Playstore..."
 
 # Create the distribution key json file from the ENV
 echo ${ANDROID_SERVICE_ACC_KEY} > ./fastlane/api-android-service-acc-key.json
