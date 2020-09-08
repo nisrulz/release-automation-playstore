@@ -44,7 +44,7 @@ This script will ask for relevant required info and create either your local `.b
     format_version: 1.4.0
     default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
     workflows:
-      ci:
+      update-metadata:
         steps:
         - activate-ssh-key:
             run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
@@ -52,8 +52,16 @@ This script will ask for relevant required info and create either your local `.b
         - script:
             title: Continue from repo
             inputs:
-            - content: "./ci_scripts/update_metadata.sh"
-
+            - content: "./scripts/update_metadata.sh"
+      update-screenshots:
+        steps:
+        - activate-ssh-key:
+            run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+        - git-clone: {}
+        - script:
+            title: Continue from repo
+            inputs:
+            - content: "./scripts/update_screenshots.sh"
     ```
 
 ## Work on Local
@@ -79,13 +87,15 @@ In order to set this up locally you will need to
 
     - `bitrise run fetch-metadata`: Fetch existing metadata in Playstore
     - `bitrise run update-metadata`: Update metadata in Playstore
+    - `bitrise run update-screenshots`: Update screenshots in Playstore
 
 ## Metadata
 
 Metadata is stored under the path `fastlane/metadata/`
 
-  - The `fetch-metadata` workflow downloads the metadata inside the `fastlane/metadata/` directory, with data segregated into localized folders such as **en-GB**, **de-DE**, etc.
-  - The `update-metadata` workflow uploades the metadata inside the `fastlane/metadata/` directory, with data picked from localized folders such as **en-GB**, **de-DE**, etc.
+- The `fetch-metadata` workflow downloads the metadata inside the `fastlane/metadata/` directory, with data segregated into localized folders such as **en-GB**, **de-DE**, etc.
+- The `update-metadata` workflow uploads the metadata inside the `fastlane/metadata/` directory, with data picked from localized folders such as **en-GB**, **de-DE**, etc.
+- The `update-screenshots` workflow uploads the screenshots inside the `fastlane/metadata/` directory, with data picked from localized folders such as **en-GB**, **de-DE**, etc.
 
 It is upto you to decide how to populate `metatdata` directory. 
 
@@ -95,11 +105,11 @@ Any update should be made to the `metadata-apps` and this workflow will sync wit
 
 To setup `metadata-apps` repo, simply follow along:
 1. Create a new repo named `metadata-apps`. It can be private.
-1. Use the `fetch-metadata` worflow to get the intial directory structure.
+1. Use the `fetch-metadata` workflow to get the initial directory structure.
 1. Cut and paste it in your `metadata-apps` repo under `android` directory.
 1. Add to git, commit and push to remote `metadata-apps` repository.
 1. When you want to make an update to the metadata, directly update the files inside the `metadata-apps` repository under `android` directory and sync it with remote.
-1. When the next time `update-metadata` workflow executes, it will sync and pull the latest changes from the `metadata-apps` respository.
+1. When the next time `update-metadata` workflow executes, it will sync and pull the latest changes from the `metadata-apps` repository.
 
 Below is a screenshot of how the `metadata-apps` repository directory structure would look like:
 

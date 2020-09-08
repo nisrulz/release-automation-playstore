@@ -11,9 +11,14 @@ workflows:
     steps:
     - script:
         inputs:
-        - content: ./ci_scripts/update_metadata.sh
+        - content: ./scripts/update_metadata.sh
+  update-screenshots:
+    steps:
+    - script:
+        inputs:
+        - content: ./scripts/update_screenshots.sh
   fetch-metadata:
     steps:
     - script:
         inputs:
-        - content: ./ci_scripts/fetch_metadata.sh
+        - content: ./scripts/fetch_metadata.sh

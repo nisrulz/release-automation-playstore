@@ -21,39 +21,61 @@ opt_out_usage
 # ============= Lanes ================
 
 platform :android do
-    desc "Download and overwrite metadata"
-    lane :fetch_metadata do
-      METADATA_PATH = "./metadata/"
-      sh "rm -rf " + METADATA_PATH
-      sh "fastlane supply init -m " + METADATA_PATH
-    end
-  
-    desc "Update metadata for the application on Google Play Store"
-    lane :update_metadata do
-      deploymentTrack = "production"
-      version_code = get_version_from_google_playstore(deploymentTrack)
-  
-      # Validate meta data update, change as per your requirement
-      validate_metadata_update = false
-  
-      upload_to_play_store(
-        skip_upload_apk: true,
-        skip_upload_aab: true,
-        skip_upload_changelogs: true,
-        track: deploymentTrack,
-        version_code: version_code,
-        release_status: "draft",
-        timeout: 3600,
-        metadata_path: "fastlane/metadata/",
-        validate_only: validate_metadata_update,
-      )
-      puts "Android update_metadata lane completed ✅"
-    end
+  # ====================== fetch_metadata ======================
+  desc "Download and overwrite metadata"
+  lane :fetch_metadata do
+    METADATA_PATH = "./metadata/"
+    sh "rm -rf " + METADATA_PATH
+    sh "fastlane supply init -m " + METADATA_PATH
   end
-  
-  # ------------------------------ Utils ------------------------------
-  def get_version_from_google_playstore(deploymentTrack)
-    versions = google_play_track_version_codes(track: deploymentTrack)
-    return versions[0]
+
+  # ====================== update_metadata ======================
+  desc "Update metadata for the application on Google Play Store"
+  lane :update_metadata do
+    deploymentTrack = "production"
+    version_code = get_version_from_google_playstore(deploymentTrack)
+
+    upload_to_play_store(
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_changelogs: true,
+      track: deploymentTrack,
+      version_code: version_code,
+      release_status: "draft",
+      timeout: 3600,
+      metadata_path: "fastlane/metadata/",
+      skip_upload_metadata: false,
+      skip_upload_screenshots: true,
+      validate_only: false,
+    )
+    puts "Android update_metadata lane completed ✅"
   end
-  
+
+  # ====================== update_screenshots ======================
+  desc "Update screenshots for the application on Google Play Store"
+  lane :update_screenshots do
+    deploymentTrack = "production"
+    version_code = get_version_from_google_playstore(deploymentTrack)
+
+    upload_to_play_store(
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_changelogs: true,
+      track: deploymentTrack,
+      version_code: version_code,
+      release_status: "draft",
+      timeout: 3600,
+      metadata_path: "fastlane/metadata/",
+      skip_upload_metadata: true,
+      skip_upload_screenshots: false,
+      validate_only: false,
+    )
+    puts "Android update_screenshots lane completed ✅"
+  end
+end
+
+# ------------------------------ Utils ------------------------------
+def get_version_from_google_playstore(deploymentTrack)
+  versions = google_play_track_version_codes(track: deploymentTrack)
+  return versions[0]
+end
