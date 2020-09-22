@@ -26,6 +26,11 @@ Download and overwrite metadata
 fastlane android update_metadata
 ```
 Update metadata for the application on Google Play Store
+### android update_screenshots
+```
+fastlane android update_screenshots
+```
+Update screenshots for the application on Google Play Store
 
 ----
 

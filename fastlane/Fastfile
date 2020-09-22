@@ -35,17 +35,21 @@ platform :android do
     deploymentTrack = "production"
     version_code = get_version_from_google_playstore(deploymentTrack)
 
+    # Enable uploading on metadata and changelog
+    upload_metadata = true
+
     upload_to_play_store(
       skip_upload_apk: true,
       skip_upload_aab: true,
-      skip_upload_changelogs: true,
       track: deploymentTrack,
       version_code: version_code,
       release_status: "draft",
       timeout: 3600,
       metadata_path: "fastlane/metadata/",
-      skip_upload_metadata: false,
-      skip_upload_screenshots: true,
+      skip_upload_metadata: !upload_metadata,
+      skip_upload_changelogs: !upload_metadata,
+      skip_upload_screenshots: upload_metadata,
+      skip_upload_images: upload_metadata,
       validate_only: false,
     )
     puts "Android update_metadata lane completed ✅"
@@ -57,17 +61,21 @@ platform :android do
     deploymentTrack = "production"
     version_code = get_version_from_google_playstore(deploymentTrack)
 
+    # Enable uploading screenshots and images
+    upload_screenshots = true
+
     upload_to_play_store(
       skip_upload_apk: true,
       skip_upload_aab: true,
-      skip_upload_changelogs: true,
       track: deploymentTrack,
       version_code: version_code,
       release_status: "draft",
       timeout: 3600,
       metadata_path: "fastlane/metadata/",
-      skip_upload_metadata: true,
-      skip_upload_screenshots: false,
+      skip_upload_metadata: upload_screenshots,
+      skip_upload_changelogs: upload_screenshots,
+      skip_upload_screenshots: !upload_screenshots,
+      skip_upload_images: !upload_screenshots,
       validate_only: false,
     )
     puts "Android update_screenshots lane completed ✅"
