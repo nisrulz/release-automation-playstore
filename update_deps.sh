@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bundle --path vendor/bundle
+bundle config set path 'vendor/bundle'
 
 echo "Updating bundle"
 bundle update
